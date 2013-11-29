@@ -66,20 +66,20 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 		register_taxonomy( 'eventbase_taxonomy', 'eventbase', array(
 			'hierarchical' => true,
 			'labels' => array(
-				'name' => _x( "Event Categories", 'taxonomy general name', 'dxbase' ),
-				'singular_name' => _x( "Event Categorie", 'taxonomy singular name', 'dxbase' ),
-				'search_items' =>  __( "Search Categorie", 'dxbase' ),
-				'popular_items' => __( "Popular Categories", 'dxbase' ),
-				'all_items' => __( "All Categories", 'dxbase' ),
+				'name' => _x( "Event Types", 'taxonomy general name', 'dxbase' ),
+				'singular_name' => _x( "Event Type", 'taxonomy singular name', 'dxbase' ),
+				'search_items' =>  __( "Search for a certain type", 'dxbase' ),
+				'popular_items' => __( "Popular Event Types", 'dxbase' ),
+				'all_items' => __( "All Event Types", 'dxbase' ),
 				//'parent_item' => null,
 				//'parent_item_colon' => null,
-				'edit_item' => __( "Edit Categorie", 'dxbase' ), 
-				'update_item' => __( "Update Categorie", 'dxbase' ),
-				'add_new_item' => __( "Add New Categorie", 'dxbase' ),
-				'new_item_name' => __( "New categorie Name", 'dxbase' ),
-				'separate_items_with_commas' => __( "Separate categories with commas", 'dxbase' ),
-				'add_or_remove_items' => __( "Add or remove categorie", 'dxbase' ),
-				'choose_from_most_used' => __( "Choose from the most used categories", 'dxbase' )
+				'edit_item' => __( "Edit Event Type", 'dxbase' ), 
+				'update_item' => __( "Update the event type", 'dxbase' ),
+				'add_new_item' => __( "Add the new event type", 'dxbase' ),
+				'new_item_name' => __( "New Event Type Name", 'dxbase' ),
+				'separate_items_with_commas' => __( "Separate types with commas", 'dxbase' ),
+				'add_or_remove_items' => __( "Add or remove types", 'dxbase' ),
+				'choose_from_most_used' => __( "Choose from the most used types", 'dxbase' )
 			),
 			'show_ui' => true,
 			'query_var' => true,
@@ -88,16 +88,11 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 		
 		register_taxonomy_for_object_type( 'eventbase_taxonomy', 'eventbase' );
 	}
+
 	
-	
-	
-	
-	
-	
-	
-	add_action( 'admin_init', 'add_box' );
+	add_action( 'add_meta_boxes', 'add_box' );
 	function add_box() {
-	add_meta_box('display_events_meta_boxes','normal', 'high');
+		add_meta_box('normal', 'Options', 'display_events_meta_boxes');
 	}
 	
 	function display_events_meta_boxes(){	
@@ -126,12 +121,19 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
         </tr>
         <tr>
             <td style="width: 40%">Frequency</td>
-            <td><input type="text" size="40" name="frequency"  /></td>
+            <td><input type="number" size="40" name="frequency"  /></td>
         </tr>
     </table>
     <?php
-		
-		
 	}
 	
+	
+	add_action( 'save_post', 'product_price_box_save' );
+	function product_price_box_save( $post_id ) {
+		//seave_post
+	
+	}
+	
+	
+	include 'show_events.php';
 	
