@@ -58,8 +58,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 		));	
 	}
 	
-	
-	
+
 	
 	add_action( 'init', 'event_type_custom_taxonomy' );
 	function event_type_custom_taxonomy() {
@@ -90,50 +89,83 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 	}
 
 	
+	
 	add_action( 'add_meta_boxes', 'add_box' );
 	function add_box() {
 		add_meta_box('normal', 'Options', 'display_events_meta_boxes');
 	}
 	
-	function display_events_meta_boxes(){	
+	function display_events_meta_boxes($display_events){
+
+		$start_time=get_post_meta($display_events->ID, 'start_time', true);
+		$end_time=get_post_meta($display_events->ID, 'end_time', true);
+		$date=get_post_meta($display_events->ID, 'date', true);
+		$repeat=get_post_meta($display_events->ID, 'repeat', true);
+		$frequency=get_post_meta($display_events->ID, 'frequency', true);		
+		
 	?>
 	<table>
 		<tr>
 			<td style="width: 40%">Start Time</td>
-			<td><input type="datetime-local" size="40" name="start_time"  /></td>
+			<td><input type="datetime-local" size="40" name="event_start_time" value="<?php echo $start_time; ?>" /></td>
 		</tr>
 		<tr>
 			<td style="width: 40%">End Time</td>
-			<td><input type="datetime-local" size="40" name="end_time"  /></td>
+			<td><input type="datetime-local" size="40" name="event_end_time" value="<?php echo $end_time; ?>" /></td>
 		</tr>
 		<tr>
             <td style="width: 40%">Date</td>
-            <td><input type="date" size="40" name="date"  /></td>
+            <td><input type="date" size="40" name="event_date" value="<?php echo $date; ?>" /></td>
         </tr>
         <tr>
 			<td style="width: 150px">Repeat</td>
 			<td>
-                <select style="width: 100px" name="repeat">
+                <select style="width: 100px" name="event_repeating">
                   	<option value="yes">Yes</option>
   					<option value="no">No</option>
+  					<?php echo selected($repeat); ?>
                 </select>
             </td>
         </tr>
         <tr>
             <td style="width: 40%">Frequency</td>
-            <td><input type="number" size="40" name="frequency"  /></td>
+            <td><input type="number" size="40" name="event_frequency" value="<?php echo $frequency; ?>" /></td>
         </tr>
     </table>
     <?php
 	}
 	
 	
-	add_action( 'save_post', 'product_price_box_save' );
-	function product_price_box_save( $post_id ) {
-		//seave_post
+	add_action( 'save_post', 'events_boxes_save', 10, 2 );
+	function events_boxes_save( $post_id, $display_events ) {
+		
+		if ($display_events->post_type == 'event_custom_post_types'){
+			
+			if(isset($_POST ['event_start_time'] )){
+				update_post_meta( $post_id, 'start_time', $_POST['event_start_time']);			
+			}
+			
 	
+			if(isset($_POST ['event_end_time'] )){
+				update_post_meta( $post_id, 'end_time', $_POST['event_end_time']);			
+			}
+			
+			if(isset($_POST ['event_date'] )){
+				update_post_meta( $post_id, 'date', $_POST['event_date']);			
+			}
+		
+			if(isset($_POST ['event_repeating'] )){
+				update_post_meta( $post_id, 'repeat', $_POST['event_repeating']);			
+			}
+			
+		
+			if(isset($_POST ['event_frequency'] ) && $_POST ['frequency'] != '' ){
+				update_post_meta( $post_id, 'frequency', $_POST['event_frequency']);			
+			}	
+		}
+		
 	}
-	
+		
 	
 	include 'show_events.php';
 	
