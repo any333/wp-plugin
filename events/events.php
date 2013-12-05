@@ -138,8 +138,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 	
 	add_action( 'save_post', 'events_boxes_save', 10, 2 );
 	function events_boxes_save( $post_id, $display_events ) {
-		
-		if ($display_events->post_type == 'event_custom_post_types'){
+		if ($display_events->post_type == 'eventbase'){
 			
 			if(isset($_POST ['event_start_time'] )){
 				update_post_meta( $post_id, 'start_time', $_POST['event_start_time']);			
