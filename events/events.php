@@ -123,13 +123,30 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
                 <select style="width: 100px" name="event_repeating">
                   	<option value="yes">Yes</option>
   					<option value="no">No</option>
-  					<?php echo selected($repeat); ?>
+  					<?php 
+  					$repeat = $_POST['event_repeating'];
+  					echo $repeat;
+  					?>
                 </select>
             </td>
         </tr>
         <tr>
             <td style="width: 40%">Frequency</td>
-            <td><input type="number" size="40" name="event_frequency" value="<?php echo $frequency; ?>" /></td>
+            <td>
+                <select style="width: 100px" name="event_frequency">
+                	<option value="none"> </option>
+                  	<option value="daily">dayli</option>
+  					<option value="weekly">weekly</option>
+  					<option value="bi_weekly">bi-weekly</option>
+  					<option value="monthly">monthly</option>
+  					<option value="3_months">3-months</option>
+  					<?php
+					$frequency = $_POST['event_frequency'];
+  					echo $frequency;
+  					?>			
+                </select>
+            </td>
+            
         </tr>
     </table>
     <?php
@@ -158,7 +175,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 			}
 			
 		
-			if(isset($_POST ['event_frequency'] ) && $_POST ['frequency'] != '' ){
+			if(isset($_POST ['event_frequency'] )){
 				update_post_meta( $post_id, 'frequency', $_POST['event_frequency']);			
 			}	
 		}
