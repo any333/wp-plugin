@@ -50,14 +50,20 @@ function calendar() {
 				<tr align="center">
 					<td colspan="7" bgcolor="green" style="color: white"><strong><?php echo $monthNames[$cMonth-1].' '.$cYear; ?></strong></td>
 				</tr>
-				<tr>
-					<td align="center" bgcolor="black" style="color: white"><strong>Monday</strong></td>
-					<td align="center" bgcolor="black" style="color: white"><strong>Tuesday</strong></td>
-					<td align="center" bgcolor="black" style="color: white"><strong>Wednesday</strong></td>
-					<td align="center" bgcolor="black" style="color: white"><strong>Thursday</strong></td>
-					<td align="center" bgcolor="black" style="color: white"><strong>Friday</strong></td>
-					<td align="center" bgcolor="black" style="color: white"><strong>Saturday</strong></td>
-					<td align="center" bgcolor="black" style="color: white"><strong>Sunday</strong></td>
+				
+				<?php 
+						$day = array ("Monday", "Tuesday", "Wednesday",
+										"Thursday", "Friday",
+										"Saturday", "Sunday");											
+				?>
+				
+				<tr>				
+				<?php 
+				foreach($day as $value){?>
+					<td align="center" bgcolor="black" style="color: white"><strong><?php echo $value ?></strong></td>
+				<?php 
+				}
+				?>
 				</tr>
 	
 				<?php
@@ -68,7 +74,7 @@ function calendar() {
 				if ( $startday == -1 )
 				$startday = 6;
 				
-				for ( $i=0; $i<($maxday+$startday); $i++ ) {
+				for ( $i=0; $i<( $maxday + $startday ); $i++ ) {
 					if( ( $i % 7 ) == 0 ) echo "<tr>";
 					if( $i < $startday ) echo "<td></td>";
 					else echo "<td align='center' valign='middle' height='80px'>". ( $i - $startday + 1 ) . "</td>";
@@ -81,19 +87,41 @@ function calendar() {
 		</tr>
 	</table>
 			<?php
-			/*
-			function get_from_db() {
-			
-				global $wpdb;
-			
-				$show_post_id = $wpdb->get_var( "SELECT meta_value, post_id, meta_key FROM wp_postmeta where post_id = '131' and meta_key= 'repeat' ");
+
+				
+	$args = array(
+	'numberposts' => -1,
+	'post_type' => 'eventbase',
+	);
+
+	$the_query = new WP_Query( $args );
+
+	 if( $the_query->get_posts() ) { ?>
+	<ul>
+		<?php 
+		while ( $the_query->have_posts() ) { 
+			$the_query->the_post(); 
+		?>
 		
-				echo $show_post_id;
-	
+		<li><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></li>
+		
+		<?php 		
+		
+		$post_IDs = array(the_ID());
+
+			foreach($post_IDs as $date_value){
+				$get_date = get_post_custom_values(date, $date_value);
+				echo var_dump($get_date);
 			}
+		?>
+	</ul>
+	<?php 
+		}
+	
+	wp_reset_query();		
 			
-			get_from_db();*/
+	}
+
+	
 }
-
-
 		
