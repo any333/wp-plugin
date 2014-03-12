@@ -1,6 +1,6 @@
 <?php
 /*
-Plugin Name: Eventtts
+Plugin Name: Organize Your Events
 Plugin URI: http://devrix.com/
 Description: A plugin helping you to plan your upcoming events.
 Version: 1.0
@@ -25,8 +25,8 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 */
 
-    add_action( 'init', 'event_custom_post_types' );
-    function event_custom_post_types() {
+    add_action( 'init', 'event_custom_post_type' );
+    function event_custom_post_type() {
 		register_post_type( 'eventbase', array(
 			'labels' => array(
 				'name' => __("Events", 'eventbase' ),
@@ -34,11 +34,11 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 				'add_new' => _x("Add New", 'eventbase', 'eventbase' ),
 				'add_new_item' => __("Add New Event", 'eventbase' ),
 				'edit_item' => __("Edit Event", 'eventbase' ),
-				'new_item' => __("New Ebent", 'eventbase' ),
+				'new_item' => __("New Event", 'eventbase' ),
 				'view_item' => __("View Event", 'eventbase' ),
 				'search_items' => __("Search Event", 'eventbase' ),
-				'not_found' =>  __("No events found", 'eventbase' ),
-				'not_found_in_trash' => __("No events found in Trash", 'eventbase' ),
+				'not_found' =>  __("Event Not Found", 'eventbase' ),
+				'not_found_in_trash' => __("Event Not Found In The Trash", 'eventbase' ),
 			),
 			'public' => true,
 			'publicly_queryable' => true,
@@ -48,6 +48,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 			'show_ui' => true,
 			'show_in_menu' => true,
 			'menu_position' => 15,
+			'menu_icon' => get_stylesheet_directory_uri().'/images/event.png',
 			'supports' => array(
 				'title',
 				'editor',
@@ -67,18 +68,18 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 			'labels' => array(
 				'name' => _x( "Event Types", 'taxonomy general name', 'eventbase' ),
 				'singular_name' => _x( "Event Type", 'taxonomy singular name', 'eventbase' ),
-				'search_items' =>  __( "Search for a certain type", 'eventbase' ),
+				'search_items' =>  __( "Search For Special Event Type", 'eventbase' ),
 				'popular_items' => __( "Popular Event Types", 'eventbase' ),
 				'all_items' => __( "All Event Types", 'eventbase' ),
-				//'parent_item' => null,
-				//'parent_item_colon' => null,
+				'parent_item' => null,
+				'parent_item_colon' => null,
 				'edit_item' => __( "Edit Event Type", 'eventbase' ), 
-				'update_item' => __( "Update the event type", 'eventbase' ),
-				'add_new_item' => __( "Add the new event type", 'eventbase' ),
+				'update_item' => __( "Update The Event Type", 'eventbase' ),
+				'add_new_item' => __( "Add new event Type", 'eventbase' ),
 				'new_item_name' => __( "New Event Type Name", 'eventbase' ),
-				'separate_items_with_commas' => __( "Separate types with commas", 'eventbase' ),
-				'add_or_remove_items' => __( "Add or remove types", 'eventbase' ),
-				'choose_from_most_used' => __( "Choose from the most used types", 'eventbase' )
+				'separate_items_with_commas' => __( "Separate Types With Commas", 'eventbase' ),
+				'add_or_remove_items' => __( "Add Or Remove Types", 'eventbase' ),
+				'choose_from_most_used' => __( "Choose From The Most Used Types", 'eventbase' )
 			),
 			'show_ui' => true,
 			'query_var' => true,
@@ -91,10 +92,10 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 	
 	add_action( 'add_meta_boxes', 'add_box' );
 	function add_box() {
-		add_meta_box( 'normal', 'Options', 'display_events_meta_boxes');
+		add_meta_box( 'normal', 'Options', 'display_events_meta_boxes' );
 	}
 	
-	function display_events_meta_boxes( $display_events ){
+	function display_events_meta_boxes( $display_events ) {
 
 		$start_time=get_post_meta( $display_events->ID, 'start_time', true );
 		$end_time=get_post_meta( $display_events->ID, 'end_time', true );
@@ -113,7 +114,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 			<td><input type="datetime-local" size="40" name="event_end_time" value="<?php echo $end_time ?>" /></td>
 		</tr>
 		<tr>
-            <td style="width: 40%">Date</td>
+            <td style="width: 40%">"Show in calendar" day</td>
             <td><input type="date" size="40" name="event_date" value="<?php echo $date ?>" /></td>
         </tr>
         <tr>
