@@ -99,9 +99,10 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 		$start_time=get_post_meta( $display_events->ID, 'start_time', true );
 		$end_time=get_post_meta( $display_events->ID, 'end_time', true );
+		$location=get_post_meta( $display_events->ID, 'location', true );
 		$date=get_post_meta( $display_events->ID, 'date', true );
 		$repeat=get_post_meta( $display_events->ID, 'repeat', true );
-		$frequency=get_post_meta( $display_events->ID, 'frequency', true );		
+		$frequency=get_post_meta( $display_events->ID, 'frequency', true );
 		
 	?>
 	<table>
@@ -113,6 +114,10 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 			<td style="width: 40%">End Time</td>
 			<td><input type="datetime-local" size="40" name="event_end_time" value="<?php echo $end_time ?>" /></td>
 		</tr>
+		<tr>
+            <td style="width: 40%">Location</td>
+            <td><input type="text" size="20" name="event_location" value="<?php echo esc_attr( $location ) ?>" /></td>
+        </tr>
 		<tr>
             <td style="width: 40%">"Show in calendar" day</td>
             <td><input type="date" size="40" name="event_date" value="<?php echo $date ?>" /></td>
@@ -147,12 +152,12 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
             <td>
 			<?php 
 			$frequencies = array(
-            		'none' => 'None',
+            		'never' => 'Never',
             		'daily' => 'Daily',
             		'weekly' => 'Weekly',
            			'bi-weekly' => 'Bi-Weekly',
            			'monthly' => 'Monthly',
-           			'3-months' => '3-Months'
+           			'every 3-months' => 'Every 3-Months'
            			);
    			?> 
 
@@ -187,6 +192,10 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 	
 			if( isset( $_POST ['event_end_time'] ) ) {
 				update_post_meta( $post_id, 'end_time', $_POST['event_end_time'] );			
+			}
+			
+			if( isset( $_POST ['event_location'] ) ) {
+				update_post_meta( $post_id, 'location', $_POST['event_location'] );			
 			}
 			
 			if( isset( $_POST ['event_date'] ) ) {

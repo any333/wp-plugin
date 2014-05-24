@@ -6,7 +6,7 @@ function show_calendar() {
 }
 
 function calendar() {
-	
+
 	$args = array(
 		'numberposts' => -1,
 		'post_type' => 'eventbase',
@@ -15,12 +15,9 @@ function calendar() {
 	$all_posts = get_posts($args);
 	$generated_posts = array();
 	
-	foreach ($all_posts as $single_post) {/*
-	?><li><a href="<?php echo get_permalink( $single_post->ID ) ?>" title="<?php echo get_the_title( $single_post->ID ); ?>">
-	<?php echo get_the_title( $single_post->ID ); ?></a></li><?php
-		echo $single_post->post_title . '<br/>';
-		echo $single_post->post_content . '<br/>';
-		echo $single_post->ID . '<br/><br/>';*/
+	
+	
+	foreach ($all_posts as $single_post) {
 		
 		$get_dates=get_post_custom_values('date', $single_post->ID);		
 		foreach($get_dates as $date_value ) {
@@ -39,7 +36,7 @@ function calendar() {
 		
 	}
 
-	
+	date_default_timezone_set("Europe/Sofia");
 	$monthNames = Array("January", "February", "March", "April",
 						"May", "June", "July", "August", "September", 
 						"October", "November", "December");
@@ -83,7 +80,7 @@ function calendar() {
 			<td align="center">
 			<table width="100%" border="0" cellpadding="2" cellspacing="2">
 				<tr align="center">
-					<td colspan="7" bgcolor="green" style="color: white"><strong><?php echo $monthNames[$current_month-1].' '.$current_year; ?></strong></td>
+					<td colspan="7" bgcolor="green" style="color: white"><strong><?php echo 'The time now:'.' '. date('d/m/Y h:i a'). '</br>'.$monthNames[$current_month-1].' '.$current_year; ?></strong></td>
 				</tr>
 				
 				<?php 
@@ -115,7 +112,7 @@ function calendar() {
 	    
 					if($i < $startday) 
 						echo "<td></td>";
-					else //var_dump($generated_posts); var_dump('something'); die();
+					else 
 						echo "<td align='center' valign='middle' height='80px'>". ($i - $startday + 1) . get_events_per_date($i - $startday + 1, $current_month, $current_year, $generated_posts) . '</br>'. "</td>";
 	    			
 					if(($i % 7) == 6 )
@@ -133,6 +130,7 @@ function calendar() {
 			<?php
 
 }
+
 
 function get_events_per_date( $d, $m, $y, $generated_posts ) {
 		if (strlen($d) == 1)
