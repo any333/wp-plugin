@@ -157,7 +157,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
             		'weekly' => 'Weekly',
            			'bi-weekly' => 'Bi-Weekly',
            			'monthly' => 'Monthly',
-           			'every 3-months' => 'Every 3-Months'
+           			'every 3-months' => 'Every 3-Months',
+					'every year' => 'Every year'
            			);
    			?> 
 
@@ -214,6 +215,5 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 		
 	} 
 
-
-	include 'show_events.php';
 	
+	include 'show_events.php';
